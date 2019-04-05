@@ -1,20 +1,33 @@
 const fs = require('fs');
-// const fs = require('express');
-// const fs = require('./fs');
 
-let listarTabla = (base, limite) => {
+let listadoPorHacer = [];
 
-    for (let i = 1; i * base < limite; i++) {
-        console.log(`${base} * ${i} = ${base * i}`);
+const guardarDB = () => {
+    let data = JSON.stringify(listadoPorHacer);
 
-    }
+    fs.writeFile(`db/data.json`, data, (err) => {
+        if (err) {
+            throw new Error('No se pudo guardar el archivo', err);
+        }
+    });
 }
 
-let crearArchivo = (base, limite = 10) => {
+let crear = (descripcion) => {
+
+    let porHacer = {
+        descripcion,
+        completado: false
+    }
+
+    listadoPorHacer.push(porHacer);
+
+    guardarDB();
+
+    return porHacer;
     return new Promise((resolve, reject) => {
 
         if (!Number(base)) {
-            reject(`${base} no es un número`);
+            reject(`${base} no es un nĂºmero`);
             return;
         }
 
@@ -36,6 +49,5 @@ let crearArchivo = (base, limite = 10) => {
 }
 
 module.exports = {
-    crearArchivo,
-    listarTabla
+    crear
 }
