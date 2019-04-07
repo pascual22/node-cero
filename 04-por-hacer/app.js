@@ -11,14 +11,29 @@ switch (comando) {
         break;
 
     case 'listar':
-        console.log('listar tareas por hacer');
+        let listado = porHacer.getListado();
+
+        for (let tarea of listado) {
+            console.log('=============  Por hacer  =========='.green);
+            console.log(tarea.descripcion);
+            console.log('Estado ', tarea.completado);
+            console.log('===================================='.green);
+
+        }
 
         break;
 
     case 'actualizar':
-        console.log('actualiza tarea por hacer');
+        let completado = porHacer.actualizar(argv.descripcion, argv.completado);
+        console.log(completado);
 
         break;
+
+    case 'borrar':
+        let borrado = porHacer.borrar(argv.descripcion);
+        console.log(borrado);
+        break;
+
     default:
         console.log('comando no reconocido');
         break;
